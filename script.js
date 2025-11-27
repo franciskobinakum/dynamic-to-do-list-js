@@ -6,56 +6,51 @@ document.addEventListener('DOMContentLoaded', function () {
   const taskInput = document.getElementById('task-input');
   const taskList = document.getElementById('task-list');
 
-  /**
-   * addTask - create a new task item and append it to the list.
-   * If called with an empty input, it alerts the user (but we avoid calling addTask automatically on page load).
-   */
+  // Function to add a task
   function addTask() {
-    // Retrieve and trim the input value
     const taskText = taskInput.value.trim();
 
-    // If the input is empty, prompt user to enter a task
     if (taskText === '') {
       alert('Please enter a task.');
       return;
     }
 
-    // Create a new list item
+    // Create list item
     const li = document.createElement('li');
     li.textContent = taskText;
 
-    // Create the remove button
+    // Add class using classList.add()
+    li.classList.add('task-item');
+
+    // Create remove button
     const removeBtn = document.createElement('button');
     removeBtn.textContent = 'Remove';
-    removeBtn.className = 'remove-btn';
 
-    // When clicked, remove the list item from the task list
+    // Add button class using classList.add()
+    removeBtn.classList.add('remove-btn');
+
+    // Remove the task when button clicked
     removeBtn.onclick = function () {
       taskList.removeChild(li);
     };
 
-    // Append remove button to the list item and append the item to the list
+    // Build structure
     li.appendChild(removeBtn);
     taskList.appendChild(li);
 
-    // Clear the input field
+    // Reset input
     taskInput.value = '';
     taskInput.focus();
   }
 
-  // Attach event listener to the Add Task button
+  // Click to add task
   addButton.addEventListener('click', addTask);
 
-  // Allow Enter key to add a task
+  // Press Enter to add task
   taskInput.addEventListener('keypress', function (event) {
     if (event.key === 'Enter') {
-      event.preventDefault(); // prevent form submission / default behavior
+      event.preventDefault();
       addTask();
     }
   });
-
-  // NOTE ABOUT "Invoke the addTask on DOMContentLoaded" from original spec:
-  // It's common to set up handlers inside DOMContentLoaded (as done above).
-  // We DO NOT call addTask() immediately on load, because that would attempt to add an empty task and produce an alert.
-  // If you *do* want to add a default task on load, call addTask() here AFTER setting taskInput.value to a non-empty string.
 });
